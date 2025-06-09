@@ -38,8 +38,6 @@ public class TestGemini : MonoBehaviour
 
         geminiAPI.SendPrompt("Explain how AI works in a few words", (responseJson) =>
         {
-            Debug.Log("Full Gemini JSON Response: " + responseJson);
-
             GeminiResponse parsedResponse = JsonUtility.FromJson<GeminiResponse>(responseJson);
 
             // Check for nulls and array lengths to avoid errors.
