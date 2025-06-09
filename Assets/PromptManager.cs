@@ -151,7 +151,7 @@ public class PromptManager : MonoBehaviour
     {
         var lines = rawResponse.Split('\n'); // Split lines by newline
         List<ConversationTurn> turns = new List<ConversationTurn>();
-        
+
         foreach (var line in lines)
         {
             if (string.IsNullOrWhiteSpace(line)) continue;
@@ -170,8 +170,6 @@ public class PromptManager : MonoBehaviour
         return turns;
     }
 
-
-    
 }
 
 
