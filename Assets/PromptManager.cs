@@ -23,7 +23,7 @@ public class PromptManager : MonoBehaviour
                 Character speaker = groupData.characters.FirstOrDefault(c => c.npcID == turn.speaker);
                 if (speaker != null)
                 {
-                    speaker.Broadcast(turn.message); // Broadcast on the character message.
+                    speaker.Broadcast(turn.message); // Broadcast NPC message
                     groupData.conversationHistory.Add(turn);
                 }
                 else
@@ -123,5 +123,10 @@ public class PromptManager : MonoBehaviour
 
         return turns;
     }
+
+
+    
 }
+
+
 

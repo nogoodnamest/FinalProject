@@ -58,9 +58,11 @@ public class GeminiAPI : MonoBehaviour
             if (request.result == UnityWebRequest.Result.Success)
             {
                 string rawJson = request.downloadHandler.text;
+                Debug.Log("Full Gemini JSON Response:\n" + rawJson);
 
-                // Extract response text
                 string messageText = ExtractTextFromResponse(rawJson);
+                Debug.Log("Parsed Gemini Message:\n" + messageText);
+
                 onResponse?.Invoke(messageText);
             }
             else
@@ -71,6 +73,7 @@ public class GeminiAPI : MonoBehaviour
         }
     }
 
+
     private string EscapeJsonString(string input)
     {
         return input.Replace("\\", "\\\\")
@@ -79,9 +82,41 @@ public class GeminiAPI : MonoBehaviour
                     .Replace("\r", "\\r");
     }
 
-    private string ExtractTextFromResponse(string json)
+    private string ExtractTextFromResponse(string rawJson)
     {
-        string x = "need to parse text{} in Gemini json response into string";
-        return x;
+        GeminiResponse parsed = JsonUtility.FromJson<GeminiResponse>(rawJson);
+
+        if (parsed != null && parsed.candidates.Length > 0 &&
+            parsed.candidates[0].content != null &&
+            parsed.candidates[0].content.parts.Length > 0)
+        {
+            return parsed.candidates[0].content.parts[0].text;
+        }
+
+        return "[Failed to parse Gemini response]";
+    }
+
+    [System.Serializable]
+    public class GeminiResponse
+    {
+        public Candidate[] candidates;
+    }
+
+    [System.Serializable]
+    public class Candidate
+    {
+        public Content content;
+    }
+
+    [System.Serializable]
+    public class Content
+    {
+        public Part[] parts;
+    }
+
+    [System.Serializable]
+    public class Part
+    {
+    public string text;
     }
 }

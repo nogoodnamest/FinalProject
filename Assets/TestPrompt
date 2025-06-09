@@ -1,0 +1,25 @@
+using UnityEngine;
+
+public class PromptTestRunner : MonoBehaviour
+{
+    public PromptManager promptManager;
+
+    [ContextMenu("Run PromptManager Initial Prompt Test")]
+    public void RunTest()
+    {
+        var allCharacters = FindObjectsOfType<Character>();
+        if (allCharacters.Length == 0)
+        {
+            Debug.LogWarning("No characters found for test.");
+            return;
+        }
+
+        Group.GroupData testGroup = new Group.GroupData
+        {
+            topic = "AI and Ethics",
+            characters = allCharacters
+        };
+
+        promptManager.GenerateMultiTurnConversation(testGroup, 10);
+    }
+}
